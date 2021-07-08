@@ -1,7 +1,11 @@
+# - *- coding: utf- 8 - *-
 import telebot
 import spotify
+from decouple import config as env_conf
 
-bot = telebot.TeleBot('1718861283:AAEakPdTr-84BL304y-zXhX7mXCu6KoalfY')
+token = env_conf('TELEGRAM_BOT_TOKEN', cast=str)
+
+bot = telebot.TeleBot(token)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -11,6 +15,7 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['text'])
 def echo_all(message):
+    print(message.text)
     bot.reply_to(message, spotify.get_track(message.text))
 
 
